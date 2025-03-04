@@ -3,25 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Меню</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        button { padding: 10px; font-size: 18px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; text-align: center; }
+        .quantity { display: flex; justify-content: center; align-items: center; }
+        button { width: 30px; height: 30px; font-size: 16px; cursor: pointer; }
+        .count { width: 50px; text-align: center; }
     </style>
 </head>
 <body>
-    <h1>Привет, Telegram!</h1>
-    <button onclick="sendData()">Отправить данные</button>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();  // Расширяем Web App
+<table>
+    <thead>
+        <tr>
+            <th>Блюдо</th>
+            <th>Цена</th>
+            <th>Количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Салат "Восточный" (порц)</td>
+            <td>66-00</td>
+            <td class="quantity">
+                <button onclick="changeQuantity(this, -1)">-</button>
+                <span class="count">0</span>
+                <button onclick="changeQuantity(this, 1)">+</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Салат "Капуста по-грузински" (порц)</td>
+            <td>25-00</td>
+            <td class="quantity">
+                <button onclick="changeQuantity(this, -1)">-</button>
+                <span class="count">0</span>
+                <button onclick="changeQuantity(this, 1)">+</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-        function sendData() {
-            tg.sendData(JSON.stringify({ message: "Привет от Web App!" }));
-            tg.close();  // Закрыть Web App
-        }
-    </script>
+<script>
+    function changeQuantity(button, delta) {
+        let countElement = button.parentElement.querySelector('.count');
+        let currentValue = parseInt(countElement.textContent, 10);
+        let newValue = Math.max(0, currentValue + delta); // Запрещаем уход в отрицательные значения
+        countElement.textContent = newValue;
+    }
+</script>
+
 </body>
 </html>
