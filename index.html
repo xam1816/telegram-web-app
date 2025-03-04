@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#008000">
     <title>Меню</title>
     <style>
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid black; padding: 10px; text-align: center; }
         .quantity { display: flex; justify-content: center; align-items: center; }
-        button { width: 30px; height: 30px; font-size: 16px; cursor: pointer;background-color: #008000; }
+        button { width: 30px; height: 30px; font-size: 16px; cursor: pointer; }
         .count { width: 50px; text-align: center; }
-        html, body {background-color: #008000; /* Светло-зеленый цвет */}
     </style>
 </head>
 <body>
@@ -46,13 +44,23 @@
     </tbody>
 </table>
 
+<button onclick="getData()">Получить данные</button>
+
 <script>
-    function changeQuantity(button, delta) {
-        let countElement = button.parentElement.querySelector('.count');
-        let currentValue = parseInt(countElement.textContent, 10);
-        let newValue = Math.max(0, currentValue + delta); // Запрещаем уход в отрицательные значения
-        countElement.textContent = newValue;
-    }
+    function getData() {
+        let rows = document.querySelectorAll('tbody tr');
+        let data = [];
+
+        rows.forEach(row => {
+            let name = row.querySelector('td:first-child').textContent;
+            let quantity = row.querySelector('.count').textContent;
+            data.push(`${name} ${quantity}`);
+        });
+
+        alert(data.join("\n"));
+
+        // Отправляем данные на сервер
+        Telegram.WebApp.sendData(JSON.stringify(data));
 </script>
 
 </body>
