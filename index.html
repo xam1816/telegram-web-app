@@ -47,6 +47,13 @@
 <button onclick="getData()">Получить данные</button>
 
 <script>
+    function changeQuantity(button, delta) {
+        let countElement = button.parentElement.querySelector('.count');
+        let currentValue = parseInt(countElement.textContent, 10);
+        let newValue = Math.max(0, currentValue + delta); // Запрещаем уход в отрицательные значения
+        countElement.textContent = newValue;
+    }
+
     function getData() {
         let rows = document.querySelectorAll('tbody tr');
         let data = [];
@@ -58,9 +65,8 @@
         });
 
         alert(data.join("\n"));
-
-        // Отправляем данные на сервер
         Telegram.WebApp.sendData(JSON.stringify(data));
+    }
 </script>
 
 </body>
