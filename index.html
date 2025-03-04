@@ -66,11 +66,7 @@
         });
 
         alert(data.join("\n"));
-        let tg = window.Telegram.WebApp;
-        tg.expand();
         Telegram.WebApp.sendData(JSON.stringify(data));
-        tg.sendData(JSON.stringify(updatedData));
-        tg.close();
     }
 </script>
 
