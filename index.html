@@ -27,27 +27,33 @@
 </table>
 
 <script>
-  let menuData = JSON.parse(decodeURIComponent(new URLSearchParams(window.location.search).get("data")));
+  Telegram.WebApp.onEvent('onDataReceived', function(data) {
+      console.log("Полученные данные:", data);
 
-  let table = document.getElementById("menu-table");
-  menuData.forEach(item => {
-    let row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${item.Название}</td>
-      <td>${item.Цена}</td>
-      <td>
-        <button onclick="updateQty(this, -1)">-</button>
-        <span>0</span>
-        <button onclick="updateQty(this, 1)">+</button>
-      </td>
-    `;
-    table.appendChild(row);
+      // Декодируем JSON, если он строкой
+      let menuData = typeof data === "string" ? JSON.parse(data) : data;
+
+      let table = document.getElementById("menu-table");
+
+      menuData.forEach(item => {
+          let row = document.createElement("tr");
+          row.innerHTML = `
+              <td>${item.Название}</td>
+              <td>${item.Цена}</td>
+              <td>
+                  <button onclick="updateQty(this, -1)">-</button>
+                  <span>0</span>
+                  <button onclick="updateQty(this, 1)">+</button>
+              </td>
+          `;
+          table.appendChild(row);
+      });
   });
 
   function updateQty(button, change) {
-    let span = button.parentElement.querySelector("span");
-    let newQty = Math.max(0, parseInt(span.innerText) + change);
-    span.innerText = newQty;
+      let span = button.parentElement.querySelector("span");
+      let newQty = Math.max(0, parseInt(span.innerText) + change);
+      span.innerText = newQty;
   }
 </script>
 
